@@ -1,0 +1,88 @@
+using System;
+using System.IO;
+using System.Globalization;
+using System.Collections.Generic;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+using KellermanSoftware.CompareNetObjects;
+
+namespace app
+{
+  public class Checker
+  {
+    public static void Test(bool success)
+    {
+      TextWriter oldOut = Console.Out;
+      StringBuilder sb = new StringBuilder();
+      TextWriter newOut = new StringWriter(sb);
+
+      try {
+        Solution instance = new Solution();
+        long start = 0;
+        double executionTime = 0;
+        Console.SetOut(newOut);
+        string output = "";
+        IList<AssertResult> executionResults = new List<AssertResult>();
+
+        <%= for %{arguments: arguments, index: i} <- checks do %>
+          <%= for %{defining: defining, value: value} <- arguments.info do %>
+        <%= defining %> = <%= value %>;
+          <% end %>
+        start = DateTime.Now.Ticks;
+        object result<%= i %>_ = instance.solution(<%= arguments.expression %>);
+        executionTime = (DateTime.Now.Ticks - start) / 10000.0;
+        IList<object> arguments<%= i %>_ = new List<object>(){ <%= arguments.expression %> };
+        output = GetOutputAndResetIO(sb);
+        executionResults.Add(new AssertResult
+            {
+            type = "result",
+            value = result<%= i %>_,
+            output = output,
+            time = executionTime,
+            });
+        <% end %>
+
+        Console.SetOut(oldOut);
+        foreach(AssertResult message in executionResults)
+        { Console.WriteLine(message); }
+      } catch (Exception e) {
+        Console.SetOut(oldOut);
+        Console.WriteLine(new ErrorMessage{ type = "error", value = e.Message });
+        Console.WriteLine(e);
+      }
+    }
+
+    static string GetOutputAndResetIO(StringBuilder sb)
+    {
+      string output = sb.ToString();
+      sb.Clear();
+      return output;
+    }
+
+    class AssertResult
+    {
+      public string? type { get; set; }
+      public object? value { get; set; }
+      public string? output { get; set; }
+      public double? time { get; set; }
+
+      public override string ToString()
+      {
+        return JsonSerializer.Serialize(this);
+      }
+    }
+
+    class ErrorMessage
+    {
+      public string? type { get; set; }
+      public string? value { get; set; }
+
+      public override string ToString()
+      {
+        return JsonSerializer.Serialize(this);
+      }
+    }
+  }
+}

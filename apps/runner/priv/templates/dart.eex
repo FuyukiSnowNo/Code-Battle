@@ -1,0 +1,50 @@
+import 'dart:convert';
+import 'dart:async';
+
+import 'package:check/solution.dart';
+
+void main() {
+    var asserts = [];
+    var output_ = "";
+
+    var startTime_;
+    var result_;
+    var executionTime_;
+
+    try {
+      runZoned(() {
+      <%= for %{arguments: arguments} <- checks do %>
+        startTime_ = new DateTime.now().millisecondsSinceEpoch;
+        result_ = solution(<%= arguments %>);
+        executionTime_ = new DateTime.now().millisecondsSinceEpoch - startTime_;
+        asserts.add({
+          'type': 'result',
+          'value': result_,
+          'output': output_,
+          'time': executionTime_
+        });
+        output_ = "";
+      <% end %>
+      }, zoneSpecification: new ZoneSpecification(
+        print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+          output_ += line + "\n";
+        }
+      ));
+
+    asserts.forEach(
+      (message) => print_message(message)
+    );
+
+    } catch (e) {
+      print(output_);
+      print(e);
+      print_message({
+        'type': 'error',
+        'value': e
+      });
+    }
+}
+
+void print_message(obj) {
+  print(json.encode(obj));
+}

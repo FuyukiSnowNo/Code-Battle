@@ -1,0 +1,119 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: "codebattle-deployment"
+spec:
+  replicas: {{ .Values.codebattle.replicaCount }}
+  selector:
+    matchLabels:
+      app: "codebattle"
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: "codebattle"
+    spec:
+      terminationGracePeriodSeconds: {{ .Values.codebattle.rollout.terminationGracePeriodSeconds }}
+      {{- if and .Values.zigRunners.enabled (or (eq .Values.zigRunners.strategy "robust") (eq .Values.zigRunners.strategy "hard")) }}
+      nodeSelector:
+        {{- toYaml .Values.zigRunners.appNodeSelector | nindent 8 }}
+      {{- else if .Values.codebattle.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.codebattle.nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- with .Values.codebattle.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: nginx
+          imagePullPolicy: "{{ .Values.nginx.image.imagePullPolicy }}"
+          image: "{{- if .Values.registry -}}{{ .Values.registry }}/{{- end -}}{{ .Values.nginx.image.repository }}:{{ .Values.version }}"
+          volumeMounts:
+            - name: nginx-shm
+              mountPath: /dev/shm
+          resources:
+            {{- toYaml .Values.nginx.resources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: {{ .Values.nginx.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.nginx.probes.readiness.periodSeconds }}
+            successThreshold: {{ .Values.nginx.probes.readiness.successThreshold }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: {{ .Values.nginx.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.nginx.probes.liveness.periodSeconds }}
+            failureThreshold: {{ .Values.nginx.probes.liveness.failureThreshold }}
+          env:
+            - name: NGINX_SERVER_ADDRESS
+              value: 127.0.0.1
+        - name: codebattle
+          imagePullPolicy: "{{ .Values.codebattle.image.imagePullPolicy }}"
+          image: "{{- if .Values.registry -}}{{ .Values.registry }}/{{- end -}}{{ .Values.codebattle.image.repository }}:{{ .Values.version }}"
+          resources:
+            {{- toYaml .Values.codebattle.resources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 4000
+            initialDelaySeconds: {{ .Values.codebattle.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.codebattle.probes.readiness.periodSeconds }}
+            successThreshold: {{ .Values.codebattle.probes.readiness.successThreshold }}
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4000
+            initialDelaySeconds: {{ .Values.codebattle.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.codebattle.probes.liveness.periodSeconds }}
+            failureThreshold: {{ .Values.codebattle.probes.liveness.failureThreshold }}
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 4000
+            periodSeconds: {{ .Values.codebattle.probes.startup.periodSeconds }}
+            failureThreshold: {{ .Values.codebattle.probes.startup.failureThreshold }}
+          command:
+            - make
+            - start
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - "curl -s -X POST http://127.0.0.1:4000/health/drain || true; curl -s -X POST http://127.0.0.1:4000/health/handoff || true; until [ \"$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:4000/health/release_ready)\" = \"200\" ]; do sleep 2; done; sleep {{ .Values.codebattle.rollout.preStopSleepSeconds }}"
+          envFrom:
+            - secretRef:
+                name: codebattle-secrets
+            - configMapRef:
+                name: codebattle-env
+                optional: true
+            {{- if .Values.codebattle.extraEnvConfigMapName }}
+            - configMapRef:
+                name: {{ .Values.codebattle.extraEnvConfigMapName | quote }}
+                optional: true
+            {{- end }}
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: DEPLOYED_AT
+              value: {{ dateInZone "2006-01-02 15:04:05" (now) "UTC" }}
+      volumes:
+        - name: nginx-shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: {{ .Values.nginx.shm.sizeLimit | quote }}

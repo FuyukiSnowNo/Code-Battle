@@ -1,0 +1,1005 @@
+## `msgid`s in this file come from POT (.pot) files.
+##
+## Do not add, change, or remove `msgid`s manually here as
+## they're tied to the ones in the corresponding POT file
+## (with the same domain).
+##
+## Use `mix gettext.extract --merge` or `mix gettext.merge`
+## to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: en\n"
+
+#: lib/codebattle_web/templates/page/index.html.slim:1
+msgid "Welcome to %{name}!"
+msgstr "Welcome to %{name}!"
+
+#: lib/codebattle_web/templates/page/index.html.slim:1
+msgid "%{name}: game for programmers."
+msgstr "%{name}: game for programmers."
+
+#, fuzzy
+#: lib/codebattle_web/templates/page/index.html.slim:6
+#: lib/codebattle_web/templates/game/index.html.slim:11
+msgid "Create a game"
+msgstr "Create game"
+
+#: lib/codebattle_web/templates/user/index.html.slim:1
+msgid "List of games"
+msgstr "List of games"
+
+#: lib/codebattle_web/templates/page/index.html.slim:16
+msgid "Lobby chat"
+msgstr "Lobby chat"
+
+#: lib/codebattle_web/templates/page/index.html.slim:18
+msgid "Type a message..."
+msgstr "Type a message..."
+
+#: lib/codebattle_web/templates/page/index.html.slim:25
+msgid "Online users"
+msgstr "Online users"
+
+#: lib/codebattle_web/templates/layout/app.html.slim:26
+msgid "Logout"
+msgstr "Logout"
+
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Sign in with %{name}"
+msgstr "Sign in with %{name}"
+
+#: lib/codebattle_web/templates/game/index.html.slim:1
+msgid "Listing games"
+msgstr "Listing games"
+
+#: lib/codebattle_web/templates/user/index.html.slim:1
+msgid "Total: "
+msgstr "Total: "
+
+#: lib/codebattle_web/templates/game/index.html.slim:2
+msgid "Users rating: "
+msgstr "Users rating: "
+
+#: lib/codebattle_web/templates/game/index.html.slim:17
+msgid "id: %{id}, state: %{state}, players: %{players}  "
+msgstr "id: %{id}, state: %{state}, players: %{players}  "
+
+#: lib/codebattle_web/templates/game/index.html.slim:19
+msgid "Join"
+msgstr "Join"
+
+#: lib/codebattle_web/templates/game/index.html.slim:21
+msgid "Show"
+msgstr "Show"
+
+#: lib/codebattle_web/templates/game/index.html.slim:25
+msgid "Main page"
+msgstr "Main page"
+
+#: lib/codebattle_web/templates/game/show.html.slim:1
+msgid "Game: %{id}"
+msgstr "Game: %{id}"
+
+#: lib/codebattle_web/templates/game/show.html.slim:2
+msgid "State: %{state}"
+msgstr "State: %{state}"
+
+#: lib/codebattle_web/templates/game/show.html.slim:4
+msgid "The winner is: %{name}"
+msgstr "The winner is: %{name}"
+
+#: lib/codebattle_web/templates/game/show.html.slim:5
+msgid "Players"
+msgstr "Players"
+
+#: lib/codebattle_web/templates/game/show.html.slim:13
+msgid "Check result"
+msgstr "Check result"
+
+#: lib/codebattle_web/templates/game/show.html.slim:15
+msgid "Waiting for an opponent"
+msgstr "Waiting for an opponent"
+
+#: lib/codebattle_web/templates/game/show.html.slim:21
+msgid "Back to the list of games"
+msgstr "Back to the list of games"
+
+#: lib/codebattle_web/templates/game/show.html.slim:31
+msgid "Game chat"
+msgstr "Game chat"
+
+#: lib/codebattle_web/templates/user/index.html.slim:12
+msgid "%{index}) name: %{name}, rating: %{rating}"
+msgstr "%{index}) name: %{name}, rating: %{rating}"
+
+#: lib/codebattle_web/controllers/session_controller.ex:6
+msgid "You have been logged out!"
+msgstr "You have been logged out!"
+
+#: lib/codebattle_web/controllers/auth_controller.ex:15
+msgid "Failed to authenticate."
+msgstr "Failed to authenticate."
+
+#: lib/codebattle_web/controllers/auth_controller.ex:30
+msgid "Successfully authenticated"
+msgstr "Successfully authenticated"
+
+#: lib/codebattle_web/controllers/game_controller.ex:41
+msgid "Game not found"
+msgstr "Game not found"
+
+#: lib/codebattle_web/controllers/game_controller.ex:27
+msgid "Game has been created"
+msgstr "Game has been created"
+
+#: lib/codebattle_web/controllers/game_controller.ex:53
+msgid "Yay, you won the game!"
+msgstr "Yay, you won the game!"
+
+#: lib/codebattle_web/channels/game_channel.ex:116
+msgid "You lost the game"
+msgstr "You lost the game"
+
+#: lib/codebattle_web/views/error_view.ex:8
+msgid "Page not found"
+msgstr "Page not found"
+
+#: lib/codebattle_web/views/error_view.ex:13
+msgid "Internal server error"
+msgstr "Internal server error"
+
+#: lib/codebattle_web/plugs/require_auth.ex:12
+msgid "You must be logged in to access that page"
+msgstr "You must be logged in to access that page"
+
+#: assets/js/socket.js:49
+msgid "joined to"
+msgstr "joined to"
+
+#: assets/js/socket.js:49
+msgid "left"
+msgstr "left"
+
+#: assets/js/socket.js:52
+msgid "channel"
+msgstr "channel"
+
+#, elixir-format
+#: lib/codebattle_web/templates/game/game_over.html.slim:1
+msgid "Game over"
+msgstr "Game over"
+
+#, elixir-format
+#: lib/codebattle_web/templates/game/game_result.html.slim:1
+msgid "Game status"
+msgstr "Game status"
+
+#, elixir-format
+#: lib/codebattle_web/templates/game/join.html.slim:1
+msgid "Join the game"
+msgstr "Join the game"
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Sign Out"
+msgstr "Sign Out"
+
+msgid "Sign up"
+msgstr "Sign up"
+
+#, elixir-format
+#: lib/codebattle_web/controllers/auth_controller.ex:23
+#: lib/codebattle_web/controllers/dev_login_controller.ex:15
+msgid "Successfully authenticated."
+msgstr "Successfully authenticated."
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Users rating"
+msgstr "Users rating"
+
+#, elixir-format
+#: lib/codebattle_web/controllers/game_controller.ex:28
+msgid "You are in a different game"
+msgstr "You are in a different game"
+
+#, elixir-format
+#: lib/codebattle_web/channels/game_channel.ex:57
+msgid "gave up!"
+msgstr "gave up!"
+
+#, elixir-format
+#: lib/codebattle_web/channels/game_channel.ex:162
+msgid "won the game!"
+msgstr "won the game!"
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Hexlet"
+msgstr "Hexlet"
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "My Profile"
+msgstr "My Profile"
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Settings"
+msgstr "Settings"
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Tg#codebattle"
+msgstr "Tg#codebattle"
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "SourceCode"
+msgstr "SourceCode"
+
+# JSX
+msgid "Task: "
+msgstr "Task: "
+
+msgid "Found a mistake? Have something to add? Pull Requests are welcome: "
+msgstr "Found a mistake? Have something to add? Pull Requests are welcome: "
+
+msgid "Run your code!"
+msgstr "Run your code!"
+
+msgid "Solution cannot be executed"
+msgstr "The solution cannot be executed"
+
+msgid "Tests failed"
+msgstr "Tests failed"
+
+msgid "You passed %{successCount} from %{assertsCount} asserts. (%{percent}%)"
+msgstr "Passed %{successCount} from %{assertsCount} asserts. (%{percent}%)"
+
+msgid "Yay! All tests passed!!111"
+msgstr "Yay! All tests passed!!111"
+
+msgid "Success Test Message"
+msgstr "Yay! All tests passed!"
+
+msgid "Failure Test Message"
+msgstr "Oh no, some test has failed!"
+
+msgid "Win Game Message"
+msgstr "You have won the game!"
+
+msgid "Win Training Message"
+msgstr "Congratulations! If you want to fight with real players for a place in the ranking, you need to sign up"
+
+msgid "Lose Game Message"
+msgstr "Your opponent has won the game"
+
+msgid "Press Check solution or Give up"
+msgstr "Press 'Check solution' or 'Give up'"
+
+msgid "Give up"
+msgstr "Give up"
+
+msgid "Сheck"
+msgstr "Check"
+
+msgid "Сheck status:"
+msgstr "Check status:"
+
+msgid "execution time: %{time} ms"
+msgstr "execution time: %{time} ms"
+
+msgid "Receive:"
+msgstr "Receive:"
+
+msgid "Expected:"
+msgstr "Expected:"
+
+msgid "Arguments:"
+msgstr "Arguments:"
+
+msgid "Oops"
+msgstr "Oops"
+
+msgid "Sort by:"
+msgstr "Sort by:"
+
+msgid "Rank"
+msgstr "Rank"
+
+msgid "Rating"
+msgstr "Rating"
+
+msgid "Games played"
+msgstr "Games played"
+
+msgid "Joined"
+msgstr "Joined"
+
+msgid "Codebattle Intro"
+msgstr "Read a simple task and solve it faster than your opponent in live time. Play with bots, friends and other players. Also you can fight in great tournaments."
+
+msgid "Codebattle Intro Title"
+msgstr "Welcome to Codebattle. Show your skill!"
+
+msgid "Start simple battle"
+msgstr "Start simple battle"
+
+msgid "Start battle"
+msgstr "Start battle"
+
+msgid "Try again"
+msgstr "Try again"
+
+msgid "Back to Home"
+msgstr "Back to Home"
+
+msgid "%{name} (bot)"
+msgstr "%{name} (bot)"
+
+msgid "%{name} (you)"
+msgstr "%{name} (you)"
+
+msgid "Fight"
+msgstr "Fight"
+
+#, elixir-format
+#: lib/codebattle_web/support/notifications.ex:13
+msgid "Oh no, the time is out! Both players lost ;("
+msgstr "Oh no, the time is out! Both players lost ;("
+
+msgid "Timeout - no timeout"
+msgstr "No timeout"
+
+msgid "Timeout 60 seconds"
+msgstr "1 min"
+
+msgid "Timeout 120 seconds"
+msgstr "2 min"
+
+msgid "Timeout 180 seconds"
+msgstr "3 min"
+
+msgid "Timeout 300 seconds"
+msgstr "5 min"
+
+msgid "Timeout 480 seconds"
+msgstr "8 min"
+
+msgid "Timeout 780 seconds"
+msgstr "13 min"
+
+msgid "Timeout 1260 seconds"
+msgstr "21 min"
+
+msgid "Timeout 2040 seconds"
+msgstr "34 min"
+
+msgid "Timeout 3300 seconds"
+msgstr "55 min"
+
+msgid "random task (%{total} available)"
+msgstr "random task (%{total} available)"
+
+msgid "Settings changed successfully"
+msgstr "Your settings has been changed"
+
+msgid "Something went wrong"
+msgstr "Oops, something has gone wrong"
+
+msgid "arena_task_stats"
+msgid_plural "%{count} tasks left"
+msgstr[0] "%{count} task left"
+msgstr[1] "%{count} tasks left"
+msgstr[2] "%{count} tasks left"
+
+msgid "Active match"
+msgstr "Асtive"
+
+# Participant Dashboard Translations
+msgid "Participant Dashboard"
+msgstr "Participant Dashboard"
+
+msgid "Login"
+msgstr "Login"
+
+msgid "University"
+msgstr "University"
+
+msgid "Category"
+msgstr "Category"
+
+msgid "Overall Standing"
+msgstr "Overall Standing"
+
+msgid "Category Standing"
+msgstr "Category Standing"
+
+msgid "Qualification"
+msgstr "Qualification"
+
+msgid "Semifinal Qualification"
+msgstr "Semifinal Qualification"
+
+msgid "Semifinal"
+msgstr "Semifinal"
+
+msgid "Final Qualification"
+msgstr "Final Qualification"
+
+msgid "Final"
+msgstr "Final"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Go to"
+msgstr "Go to"
+
+msgid "Your tournament access is temporarily restricted due to a fair-play review. You cannot be paired into new games right now. If you believe this is a mistake, please contact tournament support."
+msgstr "Your tournament access is temporarily restricted due to a fair-play review. You cannot be paired into new games right now. If you believe this is a mistake, please contact tournament support."
+
+msgid "Cheaters Panel"
+msgstr "Cheaters Panel"
+
+msgid "Cheaters"
+msgstr "Cheaters"
+
+msgid "No cheaters marked yet"
+msgstr "No cheaters marked yet"
+
+msgid "All reports"
+msgstr "All reports"
+
+msgid "No reports yet"
+msgstr "No reports yet"
+
+msgid "Unban"
+msgstr "Unban"
+
+msgid "Grand Slam"
+msgstr "Grand Slam"
+
+msgid "Masters"
+msgstr "Masters"
+
+msgid "Elite"
+msgstr "Elite"
+
+msgid "Pro"
+msgstr "Pro"
+
+msgid "Challenger"
+msgstr "Challenger"
+
+msgid "Rookie"
+msgstr "Rookie"
+
+msgid "Sort by %{label}"
+msgstr "Sort by %{label}"
+
+msgid "of %{count} players"
+msgstr "of %{count} players"
+
+msgid "Leaderboard pagination"
+msgstr "Leaderboard pagination"
+
+msgid "Search player"
+msgstr "Search player"
+
+msgid "Search by name..."
+msgstr "Search by name..."
+
+msgid "Filter by clan"
+msgstr "Filter by clan"
+
+msgid "All Clans"
+msgstr "All Clans"
+
+msgid "Filter by language"
+msgstr "Filter by language"
+
+msgid "All Languages"
+msgstr "All Languages"
+
+msgid "Clear Filters"
+msgstr "Clear Filters"
+
+msgid "View player insights"
+msgstr "View player insights"
+
+msgid "Stats"
+msgstr "Stats"
+
+msgid "No results yet"
+msgstr "No results yet"
+
+msgid "No players match your filters"
+msgstr "No players match your filters"
+
+msgid "Avg Place"
+msgstr "Avg Place"
+
+msgid "Insights"
+msgstr "Insights"
+
+msgid "Top 3"
+msgstr "Top 3"
+
+msgid "Previous Seasons Champions"
+msgstr "Previous Seasons Champions"
+
+msgid "View All Seasons"
+msgstr "View All Seasons"
+
+msgid "Full Results"
+msgstr "Full Results"
+
+msgid "Hall of Fame"
+msgstr "Hall of Fame"
+
+msgid "Starts"
+msgstr "Starts"
+
+msgid "Ends"
+msgstr "Ends"
+
+msgid "Current Season Leaderboard"
+msgstr "Current Season Leaderboard"
+
+msgid "%{count} players"
+msgstr "%{count} players"
+
+msgid "points"
+msgstr "points"
+
+msgid "Season"
+msgstr "Season"
+
+msgid "View Results"
+msgstr "View Results"
+
+msgid "Competition archive"
+msgstr "Competition archive"
+
+msgid "Seasons"
+msgstr "Seasons"
+
+msgid "Browse finished seasons and open the full leaderboard for each one."
+msgstr "Browse finished seasons and open the full leaderboard for each one."
+
+msgid "No seasons found"
+msgstr "No seasons found"
+
+msgid "Champions"
+msgstr "Champions"
+
+msgid "Season not found"
+msgstr "Season not found"
+
+msgid "Upcoming"
+msgstr "Upcoming"
+
+msgid "Completed"
+msgstr "Completed"
+
+msgid "All Seasons"
+msgstr "All Seasons"
+
+msgid "Full Leaderboard"
+msgstr "Full Leaderboard"
+
+msgid "n/a"
+msgstr "n/a"
+
+msgid "Finished"
+msgstr "Finished"
+
+msgid "Waiting"
+msgstr "Waiting"
+
+msgid "Timeout"
+msgstr "Timeout"
+
+msgid "Playing"
+msgstr "Playing"
+
+msgid "Canceled"
+msgstr "Canceled"
+
+msgid "Unknown"
+msgstr "Unknown"
+
+msgid "Pending"
+msgstr "Pending"
+
+msgid "Won"
+msgstr "Won"
+
+msgid "Draw"
+msgstr "Draw"
+
+msgid "%{count} pts"
+msgstr "%{count} pts"
+
+msgid "Leading"
+msgstr "Leading"
+
+msgid "Contender"
+msgstr "Contender"
+
+msgid "%{count} wins"
+msgstr "%{count} wins"
+
+msgid "Game"
+msgstr "Game"
+
+msgid "Open game"
+msgstr "Open game"
+
+msgid "Duration: %{duration}"
+msgstr "Duration: %{duration}"
+
+msgid "Finished %{date}"
+msgstr "Finished %{date}"
+
+msgid "Still in progress"
+msgstr "Still in progress"
+
+msgid "H2H Arena"
+msgstr "H2H Arena"
+
+msgid "Direct duel history with profile links, live status, and every shared game."
+msgstr "Direct duel history with profile links, live status, and every shared game."
+
+msgid "Total games"
+msgstr "Total games"
+
+msgid "Draws"
+msgstr "Draws"
+
+msgid "All games"
+msgstr "All games"
+
+msgid "%{count} records"
+msgstr "%{count} records"
+
+msgid "No games found for this pair."
+msgstr "No games found for this pair."
+
+msgid "Total games: %{count}"
+msgstr "Total games: %{count}"
+
+msgid "Total tournament wins: %{count}"
+msgstr "Total tournament wins: %{count}"
+
+msgid "Total tournament wins"
+msgstr "Total tournament wins"
+
+msgid "Failed to load tournaments"
+msgstr "Failed to load tournaments"
+
+msgid "No tournaments played yet"
+msgstr "No tournaments played yet"
+
+msgid "Grade"
+msgstr "Grade"
+
+msgid "Time"
+msgstr "Time"
+
+msgid "Lang"
+msgstr "Lang"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Total tournaments: %{count}"
+msgstr "Total tournaments: %{count}"
+
+msgid "Last 365 days"
+msgstr "Last 365 days"
+
+msgid "%{count} games in %{year}"
+msgstr "%{count} games in %{year}"
+
+msgid "%{count} games in the last 365 days"
+msgstr "%{count} games in the last 365 days"
+
+msgid "%{count} games on %{date}"
+msgstr "%{count} games on %{date}"
+
+msgid "No games"
+msgstr "No games"
+
+msgid "User avatar"
+msgstr "User avatar"
+
+msgid "No clan"
+msgstr "No clan"
+
+msgid "joined at %{date}"
+msgstr "joined at %{date}"
+
+msgid "Github account"
+msgstr "Github account"
+
+msgid "Place: #%{place}"
+msgstr "Place: #%{place}"
+
+msgid "Completed games"
+msgstr "Completed games"
+
+msgid "(Elo Rating)"
+msgstr "(Elo Rating)"
+
+msgid "Rivals"
+msgstr "Rivals"
+
+msgid "Clan: %{clan}"
+msgstr "Clan: %{clan}"
+
+msgid "W/L/T: %{wins}/%{losses}/%{timeouts}"
+msgstr "W/L/T: %{wins}/%{losses}/%{timeouts}"
+
+msgid "Languages"
+msgstr "Languages"
+
+msgid "Activity"
+msgstr "Activity"
+
+msgid "Total entries: %{count}"
+msgstr "Total entries: %{count}"
+
+msgid "Username contains..."
+msgstr "Username contains..."
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Users per page"
+msgstr "Users per page"
+
+msgid "With bots"
+msgstr "With bots"
+
+msgid "Season %{name} %{year}: %{start} - %{end}"
+msgstr "Season %{name} %{year}: %{start} - %{end}"
+
+msgid "Closest Opponents"
+msgstr "Closest Opponents"
+
+msgid "Avatar Logo"
+msgstr "Avatar Logo"
+
+msgid "Live Tournaments"
+msgstr "Live Tournaments"
+
+msgid "Upcoming Tournaments"
+msgstr "Upcoming Tournaments"
+
+msgid "Competition not started yet"
+msgstr "Competition not started yet"
+
+msgid "add clan"
+msgstr "add clan"
+
+msgid "Codebattle League"
+msgstr "Codebattle League"
+
+msgid "Challenge the best! Participate in the Competition tournaments, defeat your rivals to earn points, and claim the first place in the programmer ranking."
+msgstr "Challenge the best! Participate in the Competition tournaments, defeat your rivals to earn points, and claim the first place in the programmer ranking."
+
+msgid "See Rules & Details"
+msgstr "See Rules & Details"
+
+msgid "Seasons, Grades, Points — Overview"
+msgstr "Seasons, Grades, Points — Overview"
+
+msgid "Season 0: Sep 21 – Dec 21"
+msgstr "Season 0: Sep 21 – Dec 21"
+
+msgid "Season 1: Dec 21 – Mar 21"
+msgstr "Season 1: Dec 21 – Mar 21"
+
+msgid "Season 2: Mar 21 – Jun 21"
+msgstr "Season 2: Mar 21 – Jun 21"
+
+msgid "Season 3: Jun 21 – Sep 21"
+msgstr "Season 3: Jun 21 – Sep 21"
+
+msgid "On the season end date (the 21st), we run a Grand Slam at 16:00 UTC."
+msgstr "On the season end date (the 21st), we run a Grand Slam at 16:00 UTC."
+
+msgid "Season Points reset each season. Elo never resets (lifetime)."
+msgstr "Season Points reset each season. Elo never resets (lifetime)."
+
+msgid "Grades"
+msgstr "Grades"
+
+msgid "open, rookie, challenger, pro, elite, masters, grand_slam — determine prestige, task pools, points, schedules, and limits."
+msgstr "open, rookie, challenger, pro, elite, masters, grand_slam — determine prestige, task pools, points, schedules, and limits."
+
+msgid "Tournament Scheduling & Preemption"
+msgstr "Tournament Scheduling & Preemption"
+
+msgid "Daily/Hourly (UTC)"
+msgstr "Daily/Hourly (UTC)"
+
+msgid "Rookie: every 4 hours — 03:00, 07:00, 11:00, 15:00, 19:00, 23:00 UTC (no 16:00 slot)."
+msgstr "Rookie: every 4 hours — 03:00, 07:00, 11:00, 15:00, 19:00, 23:00 UTC (no 16:00 slot)."
+
+msgid "Challenger: daily 16:00 UTC; preempted by higher grades that day/week."
+msgstr "Challenger: daily 16:00 UTC; preempted by higher grades that day/week."
+
+msgid "Weekly 16:00 UTC priority"
+msgstr "Weekly 16:00 UTC priority"
+
+msgid "grand_slam > masters > elite > pro."
+msgstr "grand_slam > masters > elite > pro."
+
+msgid "In any week, exactly one of these runs at 16:00. Grand Slam week -> only GS at 16:00. Masters week -> no pro/elite. Otherwise pro (Tue) and elite (Wed) alternate as backbone."
+msgstr "In any week, exactly one of these runs at 16:00. Grand Slam week -> only GS at 16:00. Masters week -> no pro/elite. Otherwise pro (Tue) and elite (Wed) alternate as backbone."
+
+msgid "Player Limits & Rounds per Grade"
+msgstr "Player Limits & Rounds per Grade"
+
+msgid "Players limit"
+msgstr "Players limit"
+
+msgid "rookie: 8"
+msgstr "rookie: 8"
+
+msgid "challenger: 16"
+msgstr "challenger: 16"
+
+msgid "pro: 32"
+msgstr "pro: 32"
+
+msgid "elite: 64"
+msgstr "elite: 64"
+
+msgid "masters: 128"
+msgstr "masters: 128"
+
+msgid "grand_slam: 256"
+msgstr "grand_slam: 256"
+
+msgid "Rounds per grade"
+msgstr "Rounds per grade"
+
+msgid "rookie: 4"
+msgstr "rookie: 4"
+
+msgid "challenger: 6"
+msgstr "challenger: 6"
+
+msgid "pro: 8"
+msgstr "pro: 8"
+
+msgid "elite: 10"
+msgstr "elite: 10"
+
+msgid "masters: 12"
+msgstr "masters: 12"
+
+msgid "grand_slam: 14"
+msgstr "grand_slam: 14"
+
+msgid "For each finished tournament (grade != open), award Season Points by final place using the tables below. All remaining participants (outside prize slots) receive 2 points each. Prize points do not stack with participation points."
+msgstr "For each finished tournament (grade != open), award Season Points by final place using the tables below. All remaining participants (outside prize slots) receive 2 points each. Prize points do not stack with participation points."
+
+msgid "rookie: [8, 4, 2] - top-3"
+msgstr "rookie: [8, 4, 2] - top-3"
+
+msgid "challenger: [16, 8, 4, 2] - top-6"
+msgstr "challenger: [16, 8, 4, 2] - top-6"
+
+msgid "pro: [128, 64, 32, 16, 8, 4, 2] - top-7"
+msgstr "pro: [128, 64, 32, 16, 8, 4, 2] - top-7"
+
+msgid "elite: [256, 128, 64, 32, 16, 8, 4, 2] - top-8"
+msgstr "elite: [256, 128, 64, 32, 16, 8, 4, 2] - top-8"
+
+msgid "masters: [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2] - top-10"
+msgstr "masters: [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2] - top-10"
+
+msgid "grand_slam: [2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2] - top-11"
+msgstr "grand_slam: [2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2] - top-11"
+
+msgid "Season Leaderboard Tie-Breakers"
+msgstr "Season Leaderboard Tie-Breakers"
+
+msgid "Total Season Points (desc)"
+msgstr "Total Season Points (desc)"
+
+msgid "Tournament wins in season (desc)"
+msgstr "Tournament wins in season (desc)"
+
+msgid "Tournament participations in season (desc)"
+msgstr "Tournament participations in season (desc)"
+
+msgid "Maintain a HoF for Season Champions and Grand Slam Champions (participants page optional later)."
+msgstr "Maintain a HoF for Season Champions and Grand Slam Champions (participants page optional later)."
+
+msgid "Codebattle - Overview & Key Concepts"
+msgstr "Codebattle - Overview & Key Concepts"
+
+msgid "Competitive Programming Game"
+msgstr "Competitive Programming Game"
+
+msgid "Codebattle (codebattle.hexlet.io) is a real-time coding duel platform. Two players solve the same task in parallel; whoever solves it first wins the match."
+msgstr "Codebattle (codebattle.hexlet.io) is a real-time coding duel platform. Two players solve the same task in parallel; whoever solves it first wins the match."
+
+msgid "Swiss Tournaments"
+msgstr "Swiss Tournaments"
+
+msgid "Multiple rounds; in each round, players are paired vs players with similar cumulative score; no repeat pairings (unless unavoidable on round 1 bootstrap or via bot fill-ins)."
+msgstr "Multiple rounds; in each round, players are paired vs players with similar cumulative score; no repeat pairings (unless unavoidable on round 1 bootstrap or via bot fill-ins)."
+
+msgid "16 supported - clojure, cpp, csharp, dart, elixir, golang, java, js, kotlin, php, python, ruby, rust, swift, zig, ts."
+msgstr "16 supported - clojure, cpp, csharp, dart, elixir, golang, java, js, kotlin, php, python, ruby, rust, swift, zig, ts."
+
+msgid "Create a CSS Game"
+msgstr "Create a CSS Game"
+
+msgid "Create a SQL Game"
+msgstr "Create a SQL Game"
+
+msgid "Join a battle"
+msgstr "Join a battle"
+
+msgid "Continue battle"
+msgstr "Continue battle"
+
+msgid "Create a battle"
+msgstr "Create a battle"
+
+msgid "Join a game"
+msgstr "Join a game"
+
+msgid "Online players: %{count}"
+msgstr "Online players: %{count}"
+
+msgid "Send message"
+msgstr "Send message"
+
+msgid "Send fight invite"
+msgstr "Send fight invite"
+
+msgid "fight"
+msgstr "fight"
+
+msgid "Be nice in chat!"
+msgstr "Be nice in chat!"
+
+msgid "Message length cannot exceed %{count} characters."
+msgstr "Message length cannot exceed %{count} characters."
+
+msgid "Open emoji picker"
+msgstr "Open emoji picker"
+
+msgid "Clean banned"
+msgstr "Clean banned"
+
+msgid "Joined channel: %{name}"
+msgstr "Joined channel: %{name}"
+
+msgid "%{count} Online"
+msgstr "%{count} Online"
+
+msgid "Watching"
+msgstr "Watching"
+
+msgid "Online"
+msgstr "Online"
+
+msgid "Edit task"
+msgstr "Edit task"
+
+msgid "General"
+msgstr "General"
+
+msgid "Notification"
+msgstr "Notification"

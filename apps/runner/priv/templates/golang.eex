@@ -1,0 +1,66 @@
+package main
+
+import (
+  "encoding/json"
+  "fmt"
+  "io"
+  "os"
+  "time"
+)
+
+type result struct {
+  Type          string        `json:"type"`
+  Value         any           `json:"value"`
+  Time          string        `json:"time"`
+  Output        string        `json:"output,omitempty"`
+}
+
+func main() {
+  var (
+    start_  time.Time
+    result_ result
+    reader_ *os.File
+    writer_ *os.File
+    err_    error
+    elapsed_ time.Duration
+
+    stdout_ = os.Stdout
+    encoder_ = json.NewEncoder(os.Stdout)
+    results_ = make([]result, 0, <%= length(checks) %>)
+  )
+
+  result_.Type = "result"
+
+  <%= for %{arguments: arguments} <- checks do %>
+    <%= for %{defining: defining, value: value} <- arguments.info do %>
+      var <%= defining %> = <%= value %>
+    <% end %>
+
+    reader_, writer_, err_ = os.Pipe()
+    if err_ != nil {
+      fmt.Fprintf(os.Stderr, "Error creating pipe: %v", err_)
+    } else {
+      os.Stdout = writer_
+    }
+    start_ = time.Now()
+    result_.Value = solution(<%= arguments.expression %>)
+    elapsed_ = time.Since(start_)
+    result_.Time = fmt.Sprintf("%.7f", float64(elapsed_.Nanoseconds()) / float64(time.Second))
+
+    if writer_ != nil {
+      writer_.Close()
+    }
+    if reader_ != nil {
+      var outBytes_ []byte
+      outBytes_, err_ = io.ReadAll(reader_)
+      if err_ == nil {
+        result_.Output = string(outBytes_)
+      }
+      reader_.Close()
+    }
+    results_ = append(results_, result_)
+  <% end %>
+  if err_ = encoder_.Encode(results_); err_ != nil {
+    fmt.Fprintln(stdout_, "Marshaler error")
+  }
+}

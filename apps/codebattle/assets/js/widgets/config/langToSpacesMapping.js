@@ -1,0 +1,15 @@
+export default {
+  clojure: true,
+  cpp: true,
+  csharp: true,
+  elixir: true,
+  java: true,
+  js: true,
+  kotlin: true,
+  php: true,
+  python: true,
+  ruby: true,
+  swift: true,
+  ts: true,
+  zig: true,
+};

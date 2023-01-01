@@ -1,0 +1,85 @@
+defmodule Codebattle.OauthTestHelpers do
+  @moduledoc false
+  @valid_github_body %{
+    "access_token" => "12345",
+    "login" => "test_user",
+    "name" => "Testy McTestface",
+    "email" => "test@gmail.com",
+    "avatar_url" => "https://avatars3.githubusercontent.com/u/10835816",
+    "id" => "19"
+  }
+
+  @valid_discord_body %{
+    "accent_color" => nil,
+    "avatar" => "12345",
+    "avatar_decoration" => nil,
+    "banner" => nil,
+    "banner_color" => nil,
+    "discriminator" => "0123",
+    "display_name" => nil,
+    "email" => "lol@kek.com",
+    "flags" => 0,
+    "id" => "1234567",
+    "locale" => "ab",
+    "premium_type" => 0,
+    "public_flags" => 0,
+    "username" => "test_name",
+    "verified" => true
+  }
+
+  @valid_external_token_body %{
+    "access_token" => "external-token"
+  }
+
+  @valid_external_body %{
+    "client_id" => "external-client-id",
+    "default_avatar_id" => "test-avatar-id",
+    "id" => "external-user-id",
+    "is_avatar_empty" => false,
+    "login" => "external_test_login"
+  }
+
+  @valid_external_platform_body %{
+    "id" => "external-platform-test-id",
+    "login" => "external-platform-test-login"
+  }
+
+  def stub_github_oauth_requests do
+    Req.Test.stub(Codebattle.Auth, fn req ->
+      case req do
+        %{request_path: "/login/oauth/access_token", method: "POST", host: "github.com"} ->
+          Req.Test.text(req, URI.encode_query(@valid_github_body))
+
+        %{request_path: "/user", method: "GET", host: "api.github.com"} ->
+          Req.Test.json(req, @valid_github_body)
+      end
+    end)
+  end
+
+  def stub_discord_oauth_requests do
+    Req.Test.stub(Codebattle.Auth, fn req ->
+      case req do
+        %{request_path: "/api/v10/oauth2/token", method: "POST", host: "discord.com"} ->
+          Req.Test.json(req, %{"access_token" => "asfd"})
+
+        %{request_path: "/api/users/@me", method: "GET", host: "discord.com"} ->
+          Req.Test.json(req, @valid_discord_body)
+      end
+    end)
+  end
+
+  def stub_external_oauth_requests do
+    Req.Test.stub(Codebattle.Auth, fn req ->
+      case req do
+        %{request_path: "/oauth/token", method: "POST", host: "oauth.test"} ->
+          Req.Test.json(req, @valid_external_token_body)
+
+        %{request_path: "/api/user", method: "GET", host: "oauth.test"} ->
+          Req.Test.json(req, @valid_external_body)
+
+        %{request_path: "/v1/users/id", method: "GET", host: "ext.test"} ->
+          Req.Test.json(req, @valid_external_platform_body)
+      end
+    end)
+  end
+end

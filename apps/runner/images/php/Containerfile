@@ -1,0 +1,26 @@
+ARG RUNNER_IMAGE=ghcr.io/hexlet-codebattle/runner-zig:latest
+ARG PHP_TAG=8.5.2-cli-alpine3.23
+ARG TARGETPLATFORM
+
+FROM --platform=$TARGETPLATFORM ${RUNNER_IMAGE} AS runner
+FROM --platform=$TARGETPLATFORM php:${PHP_TAG}
+
+RUN apk add --update --no-cache make
+
+# app user (Alpine)
+RUN addgroup -S app -g 10001 \
+  && adduser -S -D -H -h /nonexistent -s /sbin/nologin -G app -u 10001 app
+
+WORKDIR /usr/src/app
+
+# copy, then fix ownership
+COPY check check
+COPY checker.php .
+COPY Makefile .
+RUN chown -R app:app /usr/src/app
+
+USER app
+
+EXPOSE 4040
+COPY --from=runner /app/codebattle_runner /runner/codebattle_runner
+ENTRYPOINT ["/runner/codebattle_runner"]

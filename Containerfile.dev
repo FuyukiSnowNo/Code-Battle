@@ -1,0 +1,45 @@
+FROM elixir:1.19-otp-28-alpine
+
+# Install Elixir tooling
+RUN mix local.hex --force \
+  && mix local.rebar --force \
+  && mix archive.install hex phx_new --force
+
+# Install system dependencies + Node.js + npm + podman
+RUN apk add --no-cache \
+  inotify-tools \
+  curl \
+  vim \
+  chromium \
+  postgresql-client \
+  build-base \
+  git \
+  nodejs \
+  npm \
+  podman
+
+# Install pnpm globally
+RUN npm install --global pnpm
+
+# Base workdir
+WORKDIR /app
+
+ARG GIT_HASH
+ENV APP_VERSION="$GIT_HASH" \
+    NODE_OPTIONS="--max-old-space-size=4096" \
+    PNPM_SKIP_BUILD_SCRIPT_CHECK=1
+
+# Copy repo
+COPY . .
+
+# Go to Codebattle app where package.json is
+WORKDIR /app/apps/codebattle
+
+# Install JS dependencies for Codebattle
+RUN pnpm install --force && pnpm add regenerator-runtime
+
+# Build Codebattle assets (change to your real script if needed)
+RUN pnpm run build
+
+# Return to umbrella root for further Elixir steps (mix deps.get, etc., if you add them later)
+WORKDIR /app

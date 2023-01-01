@@ -1,0 +1,14 @@
+level: easy
+disabled: true
+signature:
+  input:
+    - argument-name: str
+      type:
+        name: string
+  output:
+    type:
+      name: string
+description:
+  en: 'new_description'
+examples: |-
+  new Example: `4227 == solution(200)`

@@ -1,0 +1,33 @@
+ARG RUNNER_IMAGE=ghcr.io/hexlet-codebattle/runner-zig:latest
+ARG RUST_TAG=1.93.0-alpine3.23
+ARG TARGETPLATFORM
+
+FROM --platform=$TARGETPLATFORM ${RUNNER_IMAGE} AS runner
+FROM --platform=$TARGETPLATFORM rust:${RUST_TAG}
+
+RUN apk add --no-cache make libc-dev
+
+ENV CARGO_HOME=/tmp/cargo-home \
+  CARGO_TARGET_DIR=/tmp/cargo-target
+
+RUN mkdir -p /tmp/cargo-home /tmp/cargo-target \
+  && chmod -R 777 /tmp/cargo-home /tmp/cargo-target
+
+RUN addgroup -S app -g 10001 \
+  && adduser -S -D -H -h /nonexistent -s /sbin/nologin -G app -u 10001 app
+
+WORKDIR /usr/src/app
+
+COPY Cargo.toml .
+COPY check ./check
+COPY Makefile .
+
+RUN cargo build
+RUN chown -R app:app /usr/src/app /tmp/cargo-home /tmp/cargo-target \
+  && chmod -R a+rwX /tmp/cargo-home /tmp/cargo-target
+
+USER app
+
+EXPOSE 4040
+COPY --from=runner /app/codebattle_runner /runner/codebattle_runner
+ENTRYPOINT ["/runner/codebattle_runner"]

@@ -1,0 +1,65 @@
+# ---------- build args ----------
+ARG RUNNER_IMAGE=ghcr.io/hexlet-codebattle/runner-zig:latest
+ARG DOTNET_TAG=10.0.102-noble
+ARG TARGETPLATFORM
+
+# ---------- bring in the external runner ----------
+FROM --platform=$TARGETPLATFORM ${RUNNER_IMAGE} AS runner
+
+# ---------- .NET SDK base (Debian/glibc) ----------
+FROM --platform=$TARGETPLATFORM mcr.microsoft.com/dotnet/sdk:${DOTNET_TAG}
+
+# Dotnet/NuGet behavior (also used at runtime)
+ENV DOTNET_NOLOGO=1 \
+  DOTNET_CLI_TELEMETRY_OPTOUT=1 \
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1 \
+  DOTNET_EnableWriteXorExecute=0 \
+  HOME=/tmp/dotnet-home \
+  DOTNET_CLI_HOME=/tmp/dotnet-home \
+  NUGET_PACKAGES=/tmp/nuget/packages \
+  NUGET_CONFIG_FILE=/tmp/nuget/NuGet.Config
+
+WORKDIR /usr/src/app
+
+# System deps
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends make curl ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
+# Create user + writable HOME and workdir
+RUN groupadd -g 10001 -r runneruser \
+  && useradd -r -g runneruser -u 10001 -m -d /home/runneruser -s /usr/sbin/nologin runneruser \
+  && mkdir -p /tmp/dotnet-home /tmp/nuget/packages /tmp/nuget /usr/src/app \
+  && touch /tmp/nuget/NuGet.Config \
+  && chown -R runneruser:runneruser /home/runneruser /usr/src/app /tmp/dotnet-home /tmp/nuget \
+  && chmod -R a+rwX /tmp/dotnet-home /tmp/nuget /usr/src/app
+
+# Switch to non-root BEFORE restore so any generated dirs are owned correctly
+USER runneruser
+
+# Create Directory.Build.props inside the image so obj/bin stay in project-local paths
+RUN cat > Directory.Build.props <<'EOF'
+<Project>
+  <PropertyGroup>
+    <BaseIntermediateOutputPath>obj/</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>obj/</IntermediateOutputPath>
+    <BaseOutputPath>bin/</BaseOutputPath>
+  </PropertyGroup>
+</Project>
+EOF
+
+# Restore first (better layer cache)
+COPY --chown=runneruser:runneruser Checker.csproj ./
+RUN dotnet --info \
+  && dotnet nuget add source https://api.nuget.org/v3/index.json -n nuget.org || true \
+  && dotnet nuget locals all --clear \
+  && dotnet restore --disable-parallel --source https://api.nuget.org/v3/index.json
+
+# App sources
+COPY --chown=runneruser:runneruser Program.cs .
+COPY --chown=runneruser:runneruser check ./check
+COPY --chown=runneruser:runneruser Makefile .
+
+EXPOSE 4040
+COPY --from=runner /app/codebattle_runner /runner/codebattle_runner
+ENTRYPOINT ["/runner/codebattle_runner"]

@@ -1,0 +1,36 @@
+defmodule Codebattle.DataCase do
+  @moduledoc false
+  use ExUnit.CaseTemplate
+
+  alias Codebattle.Repo
+  alias Ecto.Adapters.SQL.Sandbox
+
+  using do
+    quote do
+      import Codebattle.DataCase
+      import CodebattleWeb.Factory
+      import Ecto
+      import Ecto.Changeset
+      import Ecto.Query
+
+      alias Codebattle.Game
+      alias Codebattle.Repo
+      alias Codebattle.User
+      alias Codebattle.UserGame
+    end
+  end
+
+  setup tags do
+    setup_sandbox(tags)
+    :ok
+  end
+
+  @doc """
+  Sets up the sandbox based on the test tags.
+  """
+  def setup_sandbox(tags) do
+    pid = Sandbox.start_owner!(Repo, shared: not tags[:async])
+    FunWithFlags.enable(:async_game_score_on_join)
+    on_exit(fn -> Sandbox.stop_owner(pid) end)
+  end
+end

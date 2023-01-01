@@ -1,0 +1,147 @@
+name: Build PR
+
+on:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    env:
+      MIX_ENV: test
+      POSTGRES_PASSWORD: postgres
+      OTP_VERSION: "28.2"
+      ELIXIR_VERSION: "1.19.4"
+
+    services:
+      db:
+        image: postgres:16-alpine
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          --name=pg_ci
+          --mount type=tmpfs,destination=/var/lib/postgresql/data
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ env.OTP_VERSION }}
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        id: deps-cache
+        with:
+          path: |
+            ./deps
+            ./_build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-
+
+      - name: Ensure Dialyzer PLT directory
+        run: mkdir -p priv/plts
+
+      - name: Cache Dialyzer PLT
+        uses: actions/cache@v4
+        with:
+          path: priv/plts
+          key: ${{ runner.os }}-dialyzer-plt-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-${{ hashFiles('mix.lock', 'mix.exs') }}
+          restore-keys: |
+            ${{ runner.os }}-dialyzer-plt-${{ env.OTP_VERSION }}-${{ env.ELIXIR_VERSION }}-
+
+      - name: Get deps
+        if: steps.deps-cache.outputs.cache-hit != 'true'
+        run: mix deps.get
+        working-directory: .
+
+      - name: Mix deps.compile
+        run: mix compile --warnings-as-errors
+        working-directory: .
+
+      - name: Mix format
+        run: mix format --check-formatted
+        working-directory: .
+
+      - name: Mix credo
+        run: mix credo --strict
+        working-directory: .
+
+      - name: Hex audit
+        run: mix hex.audit
+        working-directory: .
+
+      - name: Deps audit
+        run: mix deps.audit
+        working-directory: .
+
+      - name: Mix dialyzer
+        run: make dialyzer
+
+      # --- pnpm setup & caching ---
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: "pnpm"
+          cache-dependency-path: ./apps/codebattle/pnpm-lock.yaml
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install pnpm dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: ./apps/codebattle
+
+      - name: Frontend deps audit
+        run: pnpm audit --audit-level high
+        working-directory: ./apps/codebattle
+
+      - name: Oxlint
+        run: pnpm lint
+        working-directory: ./apps/codebattle
+
+      - name: Oxfmt check
+        run: pnpm format:check
+        working-directory: ./apps/codebattle
+
+      - name: Run jest
+        run: pnpm test
+        working-directory: ./apps/codebattle
+      # --- end pnpm block ---
+
+      - name: Setup db
+        run: |
+          mix ecto.create
+          mix ecto.migrate
+        working-directory: .
+
+      - name: Mix tests
+        run: make test
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./apps/codebattle/cover/excoveralls.json
+          fail_ci_if_error: false

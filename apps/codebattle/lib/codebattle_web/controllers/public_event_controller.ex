@@ -1,0 +1,98 @@
+defmodule CodebattleWeb.PublicEventController do
+  use CodebattleWeb, :controller
+
+  import PhoenixGon.Controller
+
+  alias Codebattle.Event
+  alias Codebattle.Tournament
+  alias Codebattle.User
+  alias Codebattle.UserEvent
+
+  require Logger
+
+  plug(CodebattleWeb.Plugs.RequireAuth when action in [:show, :stage])
+  plug(:put_view, CodebattleWeb.PublicEventView)
+
+  def show(conn, %{"slug" => slug}) do
+    if event_allowed?(conn.assigns.current_user) do
+      user = conn.assigns.current_user
+      event = Event.get_by_slug!(slug)
+      user_event = UserEvent.get_by_user_id_and_event_id(user.id, event.id)
+
+      conn
+      |> put_meta_tags(public_event_meta_tags(conn, event))
+      |> assign(:ticker_text, event.ticker_text)
+      |> assign(:show_header, true)
+      |> put_gon(
+        external_platform_login_url: Application.get_env(:codebattle, :external_platform_login_url),
+        external_platform_name: Application.get_env(:codebattle, :external_platform_name),
+        external_platform_profile_url_template: Application.get_env(:codebattle, :external_platform_profile_url_template),
+        event: %{
+          event: event,
+          user_event: user_event
+        }
+      )
+      |> render("show.html", layout: {CodebattleWeb.LayoutView, :external})
+    else
+      redirect(conn, to: Routes.root_path(conn, :index))
+    end
+  end
+
+  def stage(conn, %{"slug" => slug, "stage_slug" => stage_slug}) do
+    if event_allowed?(conn.assigns.current_user) do
+      user = conn.assigns.current_user
+
+      case Event.Context.start_stage_for_user(user, slug, stage_slug) do
+        {:ok, %Tournament{} = tournament} ->
+          redirect(conn, to: Routes.tournament_path(conn, :show, tournament.id))
+
+        # {:ok, tournament_id} when is_integer(tournament_id) ->
+        #   redirect(conn, to: Routes.tournament_path(conn, :show, tournament_id))
+
+        {:error, error} ->
+          Logger.error("Error starting stage: #{inspect(error)}")
+
+          conn
+          |> put_flash(:error, error)
+          |> redirect(to: Routes.public_event_path(conn, :show, slug))
+      end
+    else
+      redirect(conn, to: Routes.root_path(conn, :index))
+    end
+  end
+
+  defp event_allowed?(user) do
+    FunWithFlags.enabled?(:allow_event_page, for: user) or User.admin?(user)
+  end
+
+  defp public_event_meta_tags(conn, event) do
+    defaults = Application.get_all_env(:phoenix_meta_tags)
+
+    title =
+      event.title
+      |> blank_to_nil()
+      |> Kernel.||(event.ticker_text)
+      |> blank_to_nil()
+      |> Kernel.||(defaults[:title])
+
+    description =
+      event.description
+      |> blank_to_nil()
+      |> Kernel.||(event.ticker_text)
+      |> blank_to_nil()
+      |> Kernel.||(defaults[:description])
+
+    image = Routes.static_url(conn, "/assets/images/event/trophy.png")
+
+    Keyword.merge(defaults,
+      title: title,
+      description: description,
+      image: image,
+      url: Routes.public_event_url(conn, :show, event.slug)
+    )
+  end
+
+  defp blank_to_nil(nil), do: nil
+  defp blank_to_nil(""), do: nil
+  defp blank_to_nil(value), do: value
+end

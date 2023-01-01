@@ -1,0 +1,143 @@
+defmodule Codebattle.Tournament.Ranking.ByUser do
+  @moduledoc false
+  alias Codebattle.Tournament.Players
+  alias Codebattle.Tournament.Storage.Ranking
+  alias Codebattle.Tournament.TournamentResult
+
+  @page_size 10
+
+  def get_first(tournament, limit \\ @page_size) do
+    Ranking.get_first(tournament, limit)
+  end
+
+  def get_by_player(_tournament, nil), do: nil
+
+  def get_by_player(tournament, player) do
+    Ranking.get_by_id(tournament, player.id)
+  end
+
+  def get_nearest_page_by_player(tournament, nil) do
+    get_page(tournament, 1, @page_size)
+  end
+
+  def get_nearest_page_by_player(tournament, player) do
+    tournament
+    |> Ranking.get_by_id(player.id)
+    |> case do
+      nil -> 0
+      %{place: place} -> div(place, @page_size) + 1
+    end
+    |> then(&get_page(tournament, &1, @page_size))
+  end
+
+  def get_page(tournament, page, page_size) do
+    total_entries = Ranking.count(tournament)
+
+    start_index = (page - 1) * page_size + 1
+    end_index = start_index + page_size - 1
+
+    %{
+      total_entries: total_entries,
+      page_number: page,
+      page_size: page_size,
+      entries: Ranking.get_slice(tournament, start_index, end_index)
+    }
+  end
+
+  def set_ranking(tournament) do
+    round_position = tournament.current_round_position
+    round_deltas = TournamentResult.get_user_round_delta(tournament, round_position)
+
+    if Enum.empty?(round_deltas) do
+      # Keep existing ETS ranking (seeded on join) when there are no results yet.
+      tournament
+    else
+      apply_round_deltas(tournament, round_deltas, round_position)
+      ranking = build_ranking(tournament)
+      set_places_with_score_to_players(tournament, ranking)
+      Ranking.put_ranking(tournament, ranking)
+      tournament
+    end
+  end
+
+  def add_new_player(%{state: state} = tournament, player) when state in ["waiting_participants", "active"] do
+    place = Ranking.count(tournament) + 1
+
+    Ranking.put_single_record(tournament, place, %{
+      id: player.id,
+      place: place,
+      score: 0,
+      lang: player.lang,
+      name: player.name,
+      clan_id: player.clan_id,
+      clan: player.clan
+    })
+
+    tournament
+  end
+
+  def add_new_player(t, _player), do: t
+
+  def update_player_result(tournament, _player, _score), do: tournament
+
+  def set_places_with_score_to_players(%{type: "top200"} = _tournament, _ranking) do
+    :ok
+  end
+
+  def set_places_with_score_to_players(tournament, ranking) do
+    Enum.each(ranking, fn %{id: id, place: place, score: score} ->
+      tournament
+      |> Players.get_player(id)
+      |> case do
+        nil ->
+          :noop
+
+        player ->
+          Players.put_player(tournament, %{player | place: place, score: score})
+      end
+    end)
+  end
+
+  defp apply_round_deltas(tournament, round_deltas, round_position) do
+    Enum.each(round_deltas, fn {player_id, %{score: score, total_duration_sec: total_duration_sec}} ->
+      tournament
+      |> Players.get_player(player_id)
+      |> case do
+        %{last_ranked_round_position: ^round_position} ->
+          :noop
+
+        nil ->
+          :noop
+
+        player ->
+          Players.put_player(tournament, %{
+            player
+            | score: (player.score || 0) + score,
+              total_duration_sec: (player.total_duration_sec || 0) + (total_duration_sec || 0),
+              last_ranked_round_position: round_position
+          })
+      end
+    end)
+  end
+
+  defp build_ranking(tournament) do
+    tournament
+    |> Players.get_players()
+    |> Enum.reject(&(&1.is_bot || &1.state == "banned"))
+    |> Enum.sort_by(fn player ->
+      {-(player.score || 0), player.total_duration_sec || 0, player.id}
+    end)
+    |> Enum.with_index(1)
+    |> Enum.map(fn {player, place} ->
+      %{
+        id: player.id,
+        place: place,
+        score: player.score || 0,
+        lang: player.lang,
+        name: player.name,
+        clan_id: player.clan_id,
+        clan: player.clan
+      }
+    end)
+  end
+end

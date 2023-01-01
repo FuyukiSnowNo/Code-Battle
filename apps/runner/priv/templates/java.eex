@@ -1,0 +1,102 @@
+package solution;
+
+import java.io.*;
+import java.util.*;
+import static java.util.Map.entry;
+
+import com.google.gson.Gson;
+
+public class Checker {
+    public static void main(String... _args) {
+        PrintStream _oldOut = System.out;
+        List<AssertResult> executionResults_ = new ArrayList<AssertResult>();
+
+        try {
+            Solution instance_ = new Solution();
+
+            ByteArrayOutputStream baos_ = new ByteArrayOutputStream();
+            PrintStream newOut_ = new PrintStream(baos_);
+            System.setOut(newOut_);
+
+            String time_ = "";
+            long start_ = 0;
+            double executionTime_ = 0;
+            String output_ = "";
+
+            <%= for %{arguments: arguments, index: i} <- checks do %>
+              <%= for %{defining: defining, value: value} <- arguments.info do %>
+            <%= defining %> = <%= value %>;
+              <% end %>
+            start_ = System.nanoTime();
+            Object result<%= i %>_ = instance_.solution(<%= arguments.expression %>);
+            executionTime_ = (System.nanoTime() - start_) / 1_000_000_000.0;
+            time_ = String.format("%.7f", executionTime_);
+
+            output_ = getOutputAndResetIO(baos_);
+            executionResults_.add(new AssertResult(result<%= i %>_, output_, time_));
+
+            <% end %>
+
+        System.setOut(_oldOut);
+        printResults(executionResults_);
+      } catch (Exception e) {
+          System.setOut(_oldOut);
+
+          // Print full stack trace to stdout
+          e.printStackTrace(System.out);
+
+          // Also print JSON-formatted error message
+          StringWriter sw = new StringWriter();
+          e.printStackTrace(new PrintWriter(sw));
+          String errMessage = sw.toString();
+
+          var errorMessage = new ErrorMessage(errMessage);
+          System.out.println(errorMessage);
+      }
+    }
+
+    private static String getOutputAndResetIO(ByteArrayOutputStream baos) {
+        System.out.flush();
+        String output = baos.toString();
+        baos.reset();
+        return output;
+    }
+
+  private static void printResults(List<AssertResult> executionResults) {
+    executionResults.forEach((AssertResult message) -> System.out.println(message));
+  }
+}
+
+class AssertResult {
+  private String type;
+  private Object value;
+  private String output;
+  private String time;
+
+  public AssertResult(Object value, String output, String time) {
+    this.type = "result";
+    this.value = value;
+    this.output = output;
+    this.time = time;
+  }
+
+  @Override
+  public String toString() {
+    return new Gson().toJson(this);
+  }
+}
+
+class ErrorMessage {
+  private String type;
+  private String value;
+
+  public ErrorMessage(String value) {
+    this.type = "error";
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return new Gson().toJson(this);
+  }
+}

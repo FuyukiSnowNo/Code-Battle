@@ -1,0 +1,40 @@
+defmodule Codebattle.Game.TasksQueuesServerTest do
+  use Codebattle.IntegrationCase
+
+  alias Codebattle.Game.TasksQueuesServer
+  alias Codebattle.Task
+
+  test "gets next task" do
+    tasks = insert_list(2, :task, level: "easy")
+
+    TasksQueuesServer.shuffle_task_ids()
+    TasksQueuesServer.reshuffle_task_ids()
+
+    assert %Task{} = task1 = TasksQueuesServer.get_task("easy")
+    assert task1 in tasks
+
+    assert %Task{} = task2 = TasksQueuesServer.get_task("easy")
+    assert task2 in tasks
+    assert task1 != task2
+
+    assert TasksQueuesServer.get_task("easy") in tasks
+
+    assert nil == TasksQueuesServer.get_task("hard")
+  end
+
+  test "distributes tasks equally" do
+    insert_list(3, :task, level: "easy")
+    TasksQueuesServer.shuffle_task_ids()
+
+    fetched_tasks = for _i <- 1..12, do: TasksQueuesServer.get_task("easy").id
+
+    grouped_ids =
+      fetched_tasks
+      |> Enum.group_by(&Function.identity/1)
+      |> Map.values()
+      |> Enum.map(&Enum.count/1)
+
+    assert 1 == grouped_ids |> Enum.uniq() |> Enum.count()
+    assert 4 == List.first(grouped_ids)
+  end
+end

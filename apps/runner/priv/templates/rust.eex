@@ -1,0 +1,88 @@
+#![allow(warnings)]
+
+use libc::c_int;
+use serde::Serialize;
+use serde_with::{DurationSecondsWithFrac, serde_as};
+use std::{
+    collections::HashMap,
+    fs::File,
+    io::{self, Read, Write},
+    os::fd::{AsRawFd, FromRawFd},
+    process::exit,
+    time::{self, Duration},
+};
+
+mod solution;
+
+#[serde_as]
+#[derive(Serialize, Debug)]
+struct Result<T> {
+    #[serde(rename = "type")]
+    typ: String,
+    value: T,
+    #[serde_as(as = "DurationSecondsWithFrac<String>")]
+    time: Duration,
+    #[serde(skip_serializing_if = "String::is_empty")]
+    output: String,
+}
+
+fn pipe() -> std::io::Result<(File, File)> {
+    let mut fds: [c_int; 2] = [0; 2];
+    let res = unsafe { libc::pipe(fds.as_mut_ptr()) };
+    if res != 0 {
+        return Err(io::Error::new(io::ErrorKind::Other, "create pipe"));
+    }
+    let read = unsafe { File::from_raw_fd(fds[0]) };
+    let write = unsafe { File::from_raw_fd(fds[1]) };
+    Ok((read, write))
+}
+
+fn main() {
+    let stdout_ = unsafe { File::from_raw_fd(libc::dup(io::stdout().as_raw_fd())) };
+    let mut results_ = Vec::with_capacity(<%= length(checks) %>);
+    <%= for %{arguments: arguments} <- checks do %>
+    {
+      <%= for %{defining: defining, value: value} <- arguments.info do %>
+        let <%= defining %> = <%= value %>;
+      <% end %>
+
+      let (reader_, writer_) = match pipe() {
+          Ok((r, w)) => (Some(r), Some(w)),
+          Err(_) => (None, None),
+      };
+
+      if let Some(w) = writer_ {
+          unsafe {
+              libc::dup2(w.as_raw_fd(), io::stdout().as_raw_fd());
+          }
+      };
+
+      let start_ = time::Instant::now();
+      let mut result_ = Result {
+          typ: String::from("result"),
+          value: solution::solution(<%= arguments.expression %>),
+          time: start_.elapsed(),
+          output: String::new(),
+      };
+
+      if let Some(mut r) = reader_ {
+          let _ = io::stdout().flush();
+          unsafe {
+              libc::dup2(stdout_.as_raw_fd(), io::stdout().as_raw_fd());
+              let _ = r.read_to_string(&mut result_.output);
+          }
+      };
+      results_.push(result_);
+    };
+
+    <% end %>
+    unsafe {
+        libc::dup2(stdout_.as_raw_fd(), io::stdout().as_raw_fd());
+    }
+    let mut out_ = io::stdout().lock();
+    if let Err(_) = serde_json::to_writer(&mut out_, &results_) {
+        eprintln!("Encoding error");
+        exit(0);
+    }
+    let _ = out_.flush();
+}

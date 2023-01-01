@@ -1,0 +1,17 @@
+{{- if .Values.zigRunners.enabled -}}
+{{- range .Values.zigRunners.langs }}
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: "runner-{{ .name }}"
+spec:
+  selector:
+    app:  "runner-{{ .name }}"
+  ports:
+    - name: "runner-{{ .name }}"
+      protocol: TCP
+      port: 80
+      targetPort: 4040
+{{- end }}
+{{- end }}

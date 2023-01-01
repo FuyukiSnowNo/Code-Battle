@@ -1,0 +1,389 @@
+## This file is a PO Template file.
+##
+## `msgid`s here are often extracted from source code.
+## Add new translations manually only if they're dynamic
+## translations that can't be statically extracted.
+##
+## Run `mix gettext.extract` to bring this file up to
+## date. Leave `msgstr`s empty as changing them here as no
+## effect: edit them in PO (`.po`) files instead.
+msgid ""
+msgstr ""
+
+#: lib/codebattle_web/templates/page/index.html.slim:1
+msgid "Welcome to %{name}!"
+msgstr ""
+
+#: lib/codebattle_web/templates/page/index.html.slim:1
+msgid "%{name}: game for programmers."
+msgstr ""
+
+#: lib/codebattle_web/templates/page/index.html.slim:6
+#: lib/codebattle_web/templates/game/index.html.slim:11
+msgid "Create a game"
+msgstr ""
+
+#: lib/codebattle_web/templates/user/index.html.slim:1
+msgid "List of games"
+msgstr ""
+
+#: lib/codebattle_web/templates/page/index.html.slim:16
+msgid "Lobby chat"
+msgstr ""
+
+#: lib/codebattle_web/templates/page/index.html.slim:18
+msgid "Type a message..."
+msgstr ""
+
+#: lib/codebattle_web/templates/page/index.html.slim:25
+msgid "Online users"
+msgstr ""
+
+#: lib/codebattle_web/templates/layout/app.html.slim:26
+msgid "Logout"
+msgstr ""
+
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Sign in with %{name}"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/index.html.slim:1
+msgid "Listing games"
+msgstr ""
+
+#: lib/codebattle_web/templates/user/index.html.slim:1
+msgid "Total: "
+msgstr ""
+
+#: lib/codebattle_web/templates/game/index.html.slim:2
+msgid "Users rating: "
+msgstr ""
+
+#: lib/codebattle_web/templates/game/index.html.slim:17
+msgid "id: %{id}, state: %{state}, players: %{players}  "
+msgstr ""
+
+#: lib/codebattle_web/templates/game/index.html.slim:19
+msgid "Join"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/index.html.slim:21
+msgid "Show"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/index.html.slim:25
+msgid "Main page"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/show.html.slim:1
+msgid "Game: %{id}"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/show.html.slim:2
+msgid "State: %{state}"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/show.html.slim:4
+msgid "The winner is: %{name}"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/show.html.slim:5
+msgid "Players"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/show.html.slim:13
+msgid "Check result"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/show.html.slim:15
+msgid "Waiting for an opponent"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/show.html.slim:21
+msgid "Back to the list of games"
+msgstr ""
+
+#: lib/codebattle_web/templates/game/show.html.slim:31
+msgid "Game chat"
+msgstr ""
+
+#: lib/codebattle_web/templates/user/index.html.slim:12
+msgid "%{index}) name: %{name}, rating: %{rating}"
+msgstr ""
+
+#: lib/codebattle_web/controllers/session_controller.ex:6
+msgid "You have been logged out!"
+msgstr ""
+
+#: lib/codebattle_web/controllers/auth_controller.ex:15
+msgid "Failed to authenticate."
+msgstr ""
+
+#: lib/codebattle_web/controllers/auth_controller.ex:30
+msgid "Successfully authenticated"
+msgstr ""
+
+#: lib/codebattle_web/controllers/game_controller.ex:41
+msgid "Game not found"
+msgstr ""
+
+#: lib/codebattle_web/controllers/game_controller.ex:27
+msgid "Game has been created"
+msgstr ""
+
+#: lib/codebattle_web/controllers/game_controller.ex:53
+msgid "Yay, you won the game!"
+msgstr ""
+
+#: lib/codebattle_web/channels/game_channel.ex:116
+msgid "You lost the game"
+msgstr ""
+
+#: lib/codebattle_web/views/error_view.ex:8
+msgid "Page not found"
+msgstr ""
+
+#: lib/codebattle_web/views/error_view.ex:13
+msgid "Internal server error"
+msgstr ""
+
+#: lib/codebattle_web/plugs/require_auth.ex:12
+msgid "You must be logged in to access that page"
+msgstr ""
+
+#: assets/js/socket.js:49
+msgid "joined to"
+msgstr ""
+
+#: assets/js/socket.js:49
+msgid "left"
+msgstr ""
+
+#: assets/js/socket.js:52
+msgid "channel"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/game/game_over.html.slim:1
+msgid "Game over"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/game/game_result.html.slim:1
+msgid "Game status"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/game/join.html.slim:1
+msgid "Join the game"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Sign Out"
+msgstr ""
+
+msgid "Sign up"
+msgstr ""
+
+msgid "Sign in"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/controllers/auth_controller.ex:23
+#: lib/codebattle_web/controllers/dev_login_controller.ex:15
+msgid "Successfully authenticated."
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Users rating"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/controllers/game_controller.ex:28
+msgid "You are in a different game"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/channels/game_channel.ex:57
+msgid "gave up!"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/channels/game_channel.ex:162
+msgid "won the game!"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Hexlet"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "My Profile"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Settings"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "Tg#codebattle"
+msgstr "Tg#codebattle"
+
+#, elixir-format
+#: lib/codebattle_web/templates/layout/app.html.slim:13
+msgid "SourceCode"
+msgstr ""
+
+# JSX
+msgid "Task: "
+msgstr ""
+
+msgid "Found a mistake? Have something to add? Pull Requests are welcome: "
+msgstr ""
+
+msgid "Run your code!"
+msgstr ""
+
+msgid "Solution cannot be executed"
+msgstr ""
+
+msgid "Tests failed"
+msgstr ""
+
+msgid "You passed %{successCount} from %{assertsCount} asserts. (%{percent}%)"
+msgstr ""
+
+msgid "Yay! All tests passed!!111"
+msgstr ""
+
+msgid "Success Test Message"
+msgstr ""
+
+msgid "Failure Test Message"
+msgstr ""
+
+msgid "Win Game Message"
+msgstr ""
+
+msgid "Win Training Message"
+msgstr ""
+
+msgid "Lose Game Message"
+msgstr ""
+
+msgid "Press Check solution or Give up"
+msgstr ""
+
+msgid "Give up"
+msgstr ""
+
+msgid "Сheck"
+msgstr ""
+
+msgid "Сheck status:"
+msgstr ""
+
+msgid "execution time: %{time} ms"
+msgstr ""
+
+msgid "Receive:"
+msgstr ""
+
+msgid "Expected:"
+msgstr ""
+
+msgid "Arguments:"
+msgstr ""
+
+msgid "Oops"
+msgstr ""
+
+msgid "Sort by:"
+msgstr ""
+
+msgid "Rank"
+msgstr ""
+
+msgid "Rating"
+msgstr ""
+
+msgid "Games played"
+msgstr ""
+
+msgid "Joined"
+msgstr ""
+
+msgid "Codebattle Intro"
+msgstr ""
+
+msgid "Codebattle Intro Title"
+msgstr ""
+
+msgid "Start simple battle"
+msgstr ""
+
+msgid "Start battle"
+msgstr ""
+
+msgid "Try again"
+msgstr ""
+
+msgid "Back to Home"
+msgstr ""
+
+msgid "%{name} (bot)"
+msgstr ""
+
+msgid "%{name} (you)"
+msgstr ""
+
+msgid "Fight"
+msgstr ""
+
+#, elixir-format
+#: lib/codebattle_web/support/notifications.ex:13
+msgid "Oh no, the time is out! Both players lost ;("
+msgstr ""
+
+
+msgid "Timeout - no timeout"
+msgstr ""
+
+msgid "Timeout 60 seconds"
+msgstr ""
+
+msgid "Timeout 120 seconds"
+msgstr ""
+
+msgid "Timeout 300 seconds"
+msgstr ""
+
+msgid "Timeout 600 seconds"
+msgstr ""
+
+msgid "Timeout 1200 seconds"
+msgstr ""
+
+msgid "Timeout 3600 seconds"
+msgstr ""
+
+msgid "Feedback sent successfully."
+msgstr "Your feedback has been delivered!"
+
+msgid "Feedback not sent."
+msgstr "Oops, Your feedback was not delivered!"
+
+msgid "random task (%{total} available)"
+msgstr "random task (%{total} available)"
+
+msgid "Settings changed successfully"
+msgstr "Your settings has been changed"
+
+msgid "Something went wrong"
+msgstr "Oops, something has gone wrong"
