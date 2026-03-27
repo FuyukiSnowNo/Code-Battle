@@ -7,7 +7,7 @@
 ### Install
 
 ```bash
-$ git clone git@github.com:hexlet-codebattle/codebattle.git
+$ git clone git@github.com:FuyukiSnowNo/Code-battle.git
 $ cd codebattle
 $ make setup
 ```
