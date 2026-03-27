@@ -1,16 +1,3 @@
-# Codebattle
-
-[![Actions Status](https://github.com/hexlet-codebattle/codebattle/workflows/Build%20master/badge.svg)](https://github.com/hexlet-codebattle/codebattle/actions)
-[![codecov](https://codecov.io/gh/hexlet-codebattle/codebattle/branch/master/graph/badge.svg)](https://codecov.io/gh/hexlet-codebattle/codebattle)
-
-Codebattle - is an open source game being developed by the Hexlet community.
-The current version of the application is available at [codebattle.hexlet.io](https://codebattle.hexlet.io).
-
-This project exists thanks to all the people who contribute. [Contribute guideline.](CONTRIBUTING.md)
-
-<a href="https://github.com/hexlet-codebattle/codebattle/graphs/contributors"><img src="https://opencollective.com/codebattle/contributors.svg?width=890"></a>
-
-![Alt](https://repobeats.axiom.co/api/embed/cb0f9e443414905bb8a0e437460095b05bc11caf.svg "Repobeats analytics image")
 
 ### Requirements
 
@@ -69,11 +56,6 @@ $ mix images.pull elixir
 
 ### Profile js bundle
 
-### Support
-
-- [https://t.me/hexletcommunity](https://t.me/hexletcommunity/5) channel: codebattle
-
-
 ### Troubleshooting
 
 #### macOS
@@ -131,15 +113,3 @@ Then log out and log back in for the changes to take effect, or run:
 ```bash
 newgrp docker
 ```
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=hexlet-codebattle/codebattle&type=Date)](https://star-history.com/#hexlet-codebattle/codebattle&Date)
-
----
-
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/assets/master/images/hexlet_logo128.png)](https://hexlet.io?utm_source=github&utm_medium=link&utm_campaign=codebattle)
-
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet](https://hexlet.io?utm_source=github&utm_medium=link&utm_campaign=codebattle).
-
-See most active contributors on [hexlet-friends](https://friends.hexlet.io/).
